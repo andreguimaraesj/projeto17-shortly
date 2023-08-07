@@ -28,7 +28,7 @@ async function addUserSession(id, token) {
 async function selectUserUrls(id) {
   return db.query(
     `SELECT users.id, users.name, 
-    COALESCE(t2."sumVisit",0) AS "visitCount", 
+    COALESCE(CAST(t2."sumVisit" AS INTEGER),0) AS "visitCount", 
     COALESCE(t2."shortenedUrls", '{}'::JSON[]) AS "shortenedUrls"
       FROM (
         SELECT SUM (urls."visitCount") AS "sumVisit", array_agg(
@@ -42,19 +42,6 @@ async function selectUserUrls(id) {
     [id]
   );
 }
-
-// return db.query(
-//   `SELECT users.id, users.name, SUM (COALESCE(urls."visitCount",0)) AS "visitCount",
-//   array_agg(
-//     json_build_object(
-//       'id',urls."id", 'shortUrl', urls."shortUrl", 'url',urls."url", 'visitCount',urls."visitCount"
-//     )ORDER by urls."visitCount" DESC) AS "shortenedUrls"
-//    FROM users
-//    LEFT JOIN urls ON users.id=urls."userId"
-//    WHERE users.id = $1
-//    GROUP BY users.id, users.name;`,
-//   [id]
-// );
 
 export {
   addUser,
