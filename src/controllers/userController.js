@@ -51,8 +51,10 @@ async function getUserUrls(req, res) {
   const user = res.locals.user;
   try {
     const userUrls = await selectUserUrls(user.id);
+    console.log(userUrls);
     res.send(userUrls.rows[0]);
   } catch (error) {
+    console.log(error);
     res.status(500).send(error.message);
   }
 }
