@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import {
   addUser,
-  getUser,
+  getUserByEmail,
   addUserSession,
   selectUserUrls,
 } from "../repositories/user.repository.js";
@@ -24,7 +24,7 @@ async function signIn(req, res) {
   const { email, password } = req.body;
 
   try {
-    const user = await getUser(email);
+    const user = await getUserByEmail(email);
     if (user.rowCount === 0) return res.status(401).send("Email invalid");
 
     const validPassword = bcrypt.compareSync(password, user.rows[0].password);

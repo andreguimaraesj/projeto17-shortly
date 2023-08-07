@@ -7,8 +7,15 @@ async function addUser(name, email, hash) {
   );
 }
 
-async function getUser(email) {
+async function getUserByEmail(email) {
   return db.query(`SELECT * FROM users WHERE users.email= $1;`, [email]);
+}
+
+async function getUserByAll(id, name, email) {
+  return db.query(
+    `SELECT * FROM users WHERE users.id= $1 AND users.name=$2 AND users.email= $3;`,
+    [id, name, email]
+  );
 }
 
 async function addUserSession(id, token) {
@@ -34,4 +41,10 @@ async function selectUserUrls(id) {
   );
 }
 
-export { addUser, getUser, addUserSession, selectUserUrls };
+export {
+  addUser,
+  getUserByEmail,
+  getUserByAll,
+  addUserSession,
+  selectUserUrls,
+};

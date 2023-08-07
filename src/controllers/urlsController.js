@@ -7,8 +7,6 @@ import {
   removeUrl,
 } from "../repositories/urls.repository.js";
 
-import db from "../database/database.connection.js";
-
 async function addUrl(req, res) {
   const { url } = req.body;
   const userId = res.locals.user.id;
@@ -27,7 +25,7 @@ async function urlById(req, res) {
     const shortUrl = await selectUrlById(id);
     if (shortUrl.rowCount === 0) return res.sendStatus(404);
 
-    res.status(201).send(shortUrl.rows[0]);
+    res.status(200).send(shortUrl.rows[0]);
   } catch (error) {
     res.status(500).send(error.message);
   }
